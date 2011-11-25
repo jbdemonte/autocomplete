@@ -1,0 +1,32 @@
+<html>    
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="../jquery/jquery-1.7.js"></script>
+    <script type="text/javascript" src="../jquery-autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="../jquery-autocomplete.css" />
+    <script type="text/javascript">
+    
+      $(function(){
+      
+        $('input').autocomplete({
+          ajax:{
+            url:'data-source/languages.txt',
+            type:'get',
+            dataType:'text'
+          },
+          // filter:false, // add this parameter if data have not to be filtered
+          once: true
+        })
+        .focus();
+      
+      });
+      
+    </script>  
+  </head>
+    
+  <body>
+    <span>Programming language</span> : <input id="entry" type="text" name="test">
+    <br>
+    <div id="console"></div>
+  </body>
+</html>

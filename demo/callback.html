@@ -1,0 +1,45 @@
+<html>    
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="../jquery/jquery-1.7.js"></script>
+    <script type="text/javascript" src="../jquery-autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="../jquery-autocomplete.css" />
+    
+    <script type="text/javascript">
+      function mySource(){
+        if ($('input[type=radio][name=rb]:checked').val() === 'code'){
+          return 'c++ java php coldfusion javascript asp ruby';
+        } else {
+          return 'apple lemon cherry date orange grapes pear melon strawberry lime pineapple';
+        }
+      }
+
+      $(function(){
+        $('#entry')
+            .autocomplete({
+              source: mySource, // source = callback function 
+              splitChr: ' ',    // split character = space
+              prefix: false,    // no match by prefix => string contained
+              delay: 0,         // no wait before processing
+              minLength: 1      // need at least 1 character
+            })
+            .focus();
+            
+          $('input[type=radio][name=rb]').change(function(){
+            $('#entry')
+              .autocomplete('trigger') // restart autocomplete with current data
+              .focus();
+          });
+      });
+      
+    </script>  
+  </head>
+    
+  <body>
+    <input type="radio" name="rb" value="code" id="rb-code" checked/><label for="rb-code">Programming language</label>
+    <br />
+    <input type="radio" name="rb" value="fruit" id="rb-fruit" /><label for="rb-fruit">Fruit</label>
+    <br /><br />
+    <input id="entry" type="text" name="test">
+  </body>
+</html>
