@@ -8,8 +8,6 @@
     <script type="text/javascript">
 
       $(function(){
-        var gData ; // used to keep post data, to get context and display more data
-      
         $('#entry').autocomplete({
           ajax:{
             url:'data-source/ajax-json-advanced.php' // change the ajax post url
@@ -22,19 +20,14 @@
                 value:$(this).val()             // add the value 
               }
             },
-            process:function(result){           // manage data received and cast to an array
-              var res = [];
-              gData = result;                   // make result global 
-              $.each(result, function(i, val){
-                res.push(val.data);
-              });
-              return res;
+            cast:function(item){            // convert item to string
+              return item.data
             },
-            preselect: function(i){             // on "highlight" item, display some context data
-              $('#preview').html(i === -1 ? '' : gData[i].preview);
+            preselect: function(item, i){             // on "highlight" item, display some context data
+              $('#preview').html(item ? item.preview : '');
             },
-            select:function(value, i){          // on select an item
-              $('#select').html(value);
+            select:function(item, i){          // on select an item
+              $('#select').html(item.data);
             }
           },
           delai:250

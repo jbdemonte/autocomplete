@@ -30,6 +30,7 @@
     },
     cb:{              // callback
       populate:null,  // popupate data to send in $.ajax, if not define, data name is input name or id 
+      cast:null,      // cast an item<mixed> to string in order to display it to the completion
       process:null,   // after getting the result, it allows to manipulate data before displaying the completion
       preselect:null, // on highlight item
       select: null,   // on select item
@@ -77,6 +78,7 @@
         $list,                  // jQuery dropbox
         iHover = -1,            // index of highlighted element 
         dataCount = 0,          // item count in dropbox
+        gData,                  // store current data to return real object instead of "toString" values
         cache = {},             // ajax cache => [ input value ] = ajax result  
         binded = false,         // events on <input> are binded or not => enable / disable autocomplete  
         scrolling = false,      // true before starting to scroll by using up / down key and false after onScroll event => needed to disable mouse over item event which highlight overed item  
@@ -321,12 +323,12 @@
     }
     
     // filter data to match with user input
-    this.filterData = function(/*array*/data){
+    this.filterData = function(/*array*/data, /*function*/cast){
       var re = new RegExp((options.prefix ? '^' : '') + $this.val().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "i"), //escape regular expression
           result = [],
           i;
       for(i=0; i<data.length; i++){
-        if (re.test(data[i])){
+        if (re.test(cast(data[i]))){
           result.push(data[i]);
         }
       }
@@ -390,7 +392,7 @@
       iHover = next;
       this.hover(iHover, true);
       if (typeof(options.cb.preselect) === 'function'){
-        options.cb.preselect.apply($this, [iHover]);
+        options.cb.preselect.apply($this, [iHover===-1?null:gData[iHover], iHover]);
       }
     }
     
@@ -404,7 +406,7 @@
       }
       this.hide();
       if (typeof(options.cb.select) === 'function'){
-        options.cb.select.apply($this,[value, i]);
+        options.cb.select.apply($this,[gData[i], i]);
       }
     }
     
@@ -412,7 +414,10 @@
     this.show = function(data, filter){
       var that = this,
           position = $this.position(),
-          width = $.browser.msie ? $this.outerWidth() : $this.width();
+          width = $.browser.msie ? $this.outerWidth() : $this.width(),
+          cast = options.cb.cast || function(s){return s};
+      
+      gData = data;
       
       this.hide();
       
@@ -421,7 +426,7 @@
       }
       
       if ( (typeof(filter) === 'undefined' && options.filter) || filter){
-        data = this.filterData(data);
+        data = this.filterData(data, cast);
       } 
       
       $list = $('<ul class="'+options.className+'"></ul>')
@@ -451,7 +456,7 @@
       $.each(data, function(i, value){
         var $li = $('<li></li>'), $a = $('<a></a>');
         $a.click(function(){
-          that.select.apply(that, [i, value]);
+          that.select.apply(that, [i, cast(value)]);
         });
         $li.hover(
           function(){
@@ -460,7 +465,7 @@
             }
           }
         );
-        $list.append($li.append($a.append(value)));
+        $list.append($li.append($a.append(cast(value))));
       });
       
       // while clicking on an item, $this trigger the focusout, so the item click is lost
@@ -516,7 +521,7 @@
             this.select(index);
             return ;
           } else if (typeof(options.cb.unselect) === 'function'){
-            options.cb.unselect.apply($this, [value]);
+            options.cb.unselect.apply($this, []);
           }
         }
         this.stopToAutoHide();
