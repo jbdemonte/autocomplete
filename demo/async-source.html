@@ -1,0 +1,40 @@
+<html>    
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="../jquery/jquery-1.7.js"></script>
+    <script type="text/javascript" src="../jquery-autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="../jquery-autocomplete.css" />
+    
+    <script type="text/javascript">
+    
+    // this example show how to use asynchronous source
+
+      $(function(){
+        
+        function async(value){
+          // asynchronous process
+          $.ajax({
+            url: 'data-source/ajax-text.php',
+            type:'GET',
+            dataType:'text',
+            // asynchronous result
+            success: function(data){
+              $('#entry').autocomplete('display', data, true);
+            }
+          });
+        }
+      
+        $('#entry').autocomplete({
+          source: async
+        })
+        .focus();
+        
+      });
+      
+    </script>  
+  </head>
+    
+  <body>
+    <span>Programming language</span> : <input id="entry" type="text">
+  </body>
+</html>

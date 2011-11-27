@@ -13,7 +13,7 @@
   //*************************************************
   // global variables
   //*************************************************
-  var publics = ['enable', 'disable', 'flushCache', 'trigger', 'close'],
+  var publics = ['enable', 'disable', 'flushCache', 'trigger', 'display', 'close'],
       global = this,
       namespace = 'autocomplete'; // used to store the autocomplete object in $.data() and to create class name
 
@@ -420,7 +420,7 @@
         return;
       }
       
-      if (filter){
+      if ( (typeof(filter) === 'undefined' && options.filter) || filter){
         data = this.filterData(data);
       } 
       
@@ -431,7 +431,7 @@
         .scroll(function(){
           scrolling = false;
         });
-        
+      
       // adjust width
       if (options.width === 'auto'){
         $list.css($.browser.msie ? 'width' : 'minWidth', width + 'px');
@@ -575,6 +575,10 @@
   
   Autocomplete.prototype.trigger = function(){
     this.updateTOComplete(true);
+  }
+  
+  Autocomplete.prototype.display = function(source, filter){
+    this.show(this.getSource(source), filter);
   }
   
   Autocomplete.prototype.close = function(){
