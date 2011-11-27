@@ -117,7 +117,6 @@
       }
       
       // some browsers use key "down" to make their own autocompletion (Opera)
-      // debug
       $this.attr('autocomplete', 'off');
       
       // bind events
@@ -433,8 +432,6 @@
           scrolling = false;
         });
         
-        // debug : bloque le min - max width de IE plus bas
-      
       // adjust width
       if (options.width === 'auto'){
         $list.css($.browser.msie ? 'width' : 'minWidth', width + 'px');
@@ -572,7 +569,7 @@
   
   Autocomplete.prototype.disable = function(){
     this.unbind();
-    this.preselect(-1); // debug ?
+    this.preselect(-1);
     this.hide();
   }
   
