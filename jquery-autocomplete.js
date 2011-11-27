@@ -136,7 +136,7 @@
     // run callback or return source 
     this.getSource = function(source){
       if (typeof(source) === 'function'){
-        return this.getSource.apply(this, [source.apply($this, [])]); // result of the callback is re-processed (in case of result string ...)
+        return this.getSource.apply(this, [source.apply($this, [$this.val()])]); // result of the callback is re-processed (in case of result string ...)
       } else if (typeof(source) === 'string'){
         return this.splitData(source)
       }
