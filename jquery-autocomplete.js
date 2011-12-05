@@ -413,7 +413,7 @@
     // use data receive from post or cache to display the selectbox
     this.show = function(data, filter){
       var that = this,
-          position = $this.position(),
+          position = $this.offset(),
           width = $.browser.msie ? $this.outerWidth() : $this.width(),
           cast = options.cb.cast || function(s){return s};
       
