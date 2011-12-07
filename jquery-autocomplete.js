@@ -337,7 +337,7 @@
     
     // run the completion : use local source
     this.completeSource = function(){
-      this.show(this.getSource(options.source), true);
+      this.show(this.getSource(options.source));
     }
     
     // run the completion : use cache or call $.ajax
