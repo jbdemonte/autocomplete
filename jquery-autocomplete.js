@@ -337,7 +337,7 @@
     
     // run the completion : use local source
     this.completeSource = function(){
-      this.show(this.getSource(options.source), true);
+      this.show(this.getSource(options.source));
     }
     
     // run the completion : use cache or call $.ajax
@@ -413,7 +413,7 @@
     // use data receive from post or cache to display the selectbox
     this.show = function(data, filter){
       var that = this,
-          position = $this.position(),
+          position = $this.offset(),
           width = $.browser.msie ? $this.outerWidth() : $this.width(),
           cast = options.cb.cast || function(s){return s};
       
@@ -426,7 +426,7 @@
       }
       
       if ( (typeof(filter) === 'undefined' && options.filter) || filter){
-        data = this.filterData(data, cast);
+        gData = data = this.filterData(data, cast);
       } 
       
       $list = $('<ul class="'+options.className+'"></ul>')
