@@ -426,7 +426,7 @@
       }
       
       if ( (typeof(filter) === 'undefined' && options.filter) || filter){
-        data = this.filterData(data, cast);
+        gData = data = this.filterData(data, cast);
       } 
       
       $list = $('<ul class="'+options.className+'"></ul>')
