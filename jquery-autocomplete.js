@@ -42,7 +42,7 @@
     minLength: 1,     // min lenght to complete : 0 / false : not used, > 0 : min length
     cache: true,      // ajax : cache result to save exchange
     once: false,      // ajax : false : idle, true : only require ajax exchange once => data source don't change : set filter to true if not defined in init
-    filter: false,    // ajax : after ajax, run match filter
+    filter: true,     // run match filter
     source:null,      // null => ajax, [], string or callback function
     prefix:true,      // match by prefix of source data 
     splitChr:null,    // used character to split data (default is \n)
@@ -108,14 +108,6 @@
       // initialise source data
       if (typeof(options.source) === 'string'){
         options.source = this.splitData(options.source);
-      }
-      
-      // if 'filter' not defined and 'once' defined to true, default 'filter' is true
-      // => used to set a flat file as data source 
-      if ( opts && (typeof(opts) === 'object') && (typeof(opts['once']) !== 'undefined') && opts.once ){
-        if (typeof(opts['filter']) === 'undefined'){
-          options.filter = true;
-        }
       }
       
       // some browsers use key "down" to make their own autocompletion (Opera)
