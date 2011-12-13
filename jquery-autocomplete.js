@@ -225,6 +225,7 @@
         return false;
       }
       var height = $list.innerHeight(),
+
           pageCount = 0, next = iHover;
       // count visible element to process pageUp/Down
       $('li', $list).each(function(i, element){
@@ -417,8 +418,6 @@
           width = $.browser.msie ? $this.outerWidth() : $this.width(),
           cast = options.cb.cast || function(s){return s};
       
-      gData = data;
-      
       this.hide();
       
       if (!data || (typeof(data) !== 'object') || !data.length){
@@ -428,6 +427,8 @@
       if ( (typeof(filter) === 'undefined' && options.filter) || filter){
         data = this.filterData(data, cast);
       } 
+      
+      gData = data;
       
       $list = $('<ul class="'+options.className+'"></ul>')
         .css('position', 'absolute')
