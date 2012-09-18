@@ -4,7 +4,7 @@ Autocomplete for jQuery
 Presentation
 ------------
 
-Enables users to quickly find and select from differents kind of source (pre-populated list of values, ajax source (json, text), callback).  
+Enables users to quickly find and select from different kinds of source (pre-populated list of values, ajax source (json, text), callback).  
 
 Why using autocomplete ?
 ------------------------
@@ -12,7 +12,7 @@ Why using autocomplete ?
 1. Flexibility 
 
 - Lot of options allow to customize the autocomplete process (autohide, prefix match, min length...)
-- Ajax exchange can populated throught callback to add / modify data to the post (get) and result can be redefined also throught callback.
+- Ajax exchange can be populated throught callback to add / modify data to the post (get) and result can be redefined also throught callback.
 - CSS is really short and fully modifiable
 
 2. Cross browser
