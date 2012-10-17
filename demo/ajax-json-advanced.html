@@ -1,67 +1,62 @@
 <html>    
-  <head> 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="../jquery/jquery-1.7.js"></script>
-    <script type="text/javascript" src="../jquery-autocomplete.js"></script>
-    <link rel="stylesheet" type="text/css" href="../jquery-autocomplete.css" />
-    
-    <script type="text/javascript">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="../jquery/jquery-1.7.js"></script>
+        <script type="text/javascript" src="../jquery-autocomplete.js"></script>
+        <link rel="stylesheet" type="text/css" href="../jquery-autocomplete.css" />
+        <script type="text/javascript">
+            $(function () {
+                $("#entry")
+                    .autocomplete({
+                        ajax: {
+                            url: "data-source/ajax-json-advanced.php" // change the ajax post url
+                        },
+                        cb: {
+                            populate: function() {                // change the post data
+                                return {
+                                    data1: $(this).data("user1"),    // add custom data from the text input
+                                    data2: $(this).data("user2"),    // ..
+                                    value: $(this).val()             // add the value
+                                }
+                            },
+                            cast: function(item) {            // convert item to string
+                                return item.data
+                            },
+                            preselect: function(item, i) {             // on "highlight" item, display some context data
+                                $("#preview").html(item ? item.preview : "");
+                            },
+                            select: function(item, i) {          // on select an item
+                                $("#select").html(item.data);
+                            }
+                        },
+                        delai: 250,
+                        match: false
+                    })
+                    .focus()
+                    .val("java")              // fill the input
+                    .autocomplete("trigger"); // tun the completion
 
-      $(function(){
-        $('#entry').autocomplete({
-          ajax:{
-            url:'data-source/ajax-json-advanced.php' // change the ajax post url
-          },
-          cb:{
-            populate:function(){                // change the post data 
-              return {
-                data1:$(this).data('user1'),    // add custom data from the text input
-                data2:$(this).data('user2'),    // ..
-                value:$(this).val()             // add the value 
-              }
-            },
-            cast:function(item){            // convert item to string
-              return item.data
-            },
-            preselect: function(item, i){             // on "highlight" item, display some context data
-              $('#preview').html(item ? item.preview : '');
-            },
-            select:function(item, i){          // on select an item
-              $('#select').html(item.data);
-            }
-          },
-          delai:250,
-	  filter: false
-        })
-        
-        .focus()
-        .val('java')              // fill the input
-        .autocomplete('trigger'); // tun the completion
-        
-        // enable or disable tue autocompletion
-        $('#enable').click(function(){
-          $('#entry').autocomplete( $(this).is(':checked') ? 'enable' : 'disable');
-        });
-        
-        // flush the cache
-        $('#flush').click(function(){
-          $('#entry').autocomplete('flushCache');
-        });
-        
-      });
-      
-    </script>  
-  </head>
-    
-  <body>
-    <span>Programming language</span> : <input id="entry" type="text" name="test" data-user1="hello", data-user2="world !">
-    <br /><br />
-    <input type="checkbox" id="enable" checked><label for="enable">Enable</label>
-    <br /><br />
-    <input type="button" id="flush" value="Flush cache">
-    <br /><br />
-    <span>Preview : </span><span id="preview"></span>
-    <br /><br />
-    <span>Selected : </span><span id="select"></span>
-  </body>
+                    // enable or disable tue autocompletion
+                    $("#enable").click(function() {
+                        $("#entry").autocomplete( $(this).is(":checked") ? "enable" : "disable");
+                    });
+
+                    // flush the cache
+                    $("#flush").click(function() {
+                        $("#entry").autocomplete("flushCache");
+                    });
+            });
+        </script>
+    </head>
+    <body>
+        <span>Programming language</span> : <input id="entry" type="text" name="test" data-user1="hello" data-user2="world !">
+        <br /><br />
+        <input type="checkbox" id="enable" checked><label for="enable">Enable</label>
+        <br /><br />
+        <input type="button" id="flush" value="Flush cache">
+        <br /><br />
+        <span>Preview : </span><span id="preview"></span>
+        <br /><br />
+        <span>Selected : </span><span id="select"></span>
+    </body>
 </html>
