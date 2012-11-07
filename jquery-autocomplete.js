@@ -405,6 +405,7 @@
             if (typeof options.cb.select === "function") {
                 options.cb.select.call(element, current[key], key, i);
             }
+            element.focus();
         }
 
         // use data receive from post or cache to display the selectbox
@@ -451,7 +452,7 @@
                 });
             } else {
                 dropbox.css({
-                    width: options.width,
+                    width: typeof options.width === "function" ? options.width() : options.width,
                     overflow: "hidden"
                 });
             }
@@ -464,7 +465,12 @@
                 var li = $(document.createElement("li")),
                     a = $(document.createElement("a")),
                     i = count;
-                a.click(function () {
+                a.click(function (event) {
+                    event.stopPropagation();
+                    select(i, cast(value));
+                });
+                li.click(function (event) {
+                    event.stopPropagation();
                     select(i, cast(value));
                 });
                 li.hover(function () {
