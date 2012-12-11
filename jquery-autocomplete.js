@@ -41,6 +41,7 @@
             splitChr: undef,        // used character to split data (default is \n)
             autohide: false,        // autohide if not hover : 0 / false : not used, > 0 : delay in ms
             loop: true,             // up / down loop
+            selectFirst: true,      // select first element on show
             className : namespace
         };
 
@@ -517,6 +518,9 @@
                         }
                     });
                 });
+            }
+            if (options.selectFirst) {
+                preselect(0);
             }
 
             updateToAutoHide();
