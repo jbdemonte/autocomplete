@@ -136,10 +136,11 @@
         }
 
         function relocate() {
-            var offset = element.offset();
+            var offset = element.offset(),
+                optOffset = typeof options.offset === "function" ? options.offset() : options.offset;
             dropbox.offset({
-                top: offset.top + (options.offset ? options.offset.top : element.outerHeight() + 1),
-                left: offset.left + (options.offset ? options.offset.left : 0)
+                top: offset.top + (optOffset && optOffset.top ? optOffset.top : element.outerHeight() + 1),
+                left: offset.left + (optOffset && optOffset.left ? optOffset.left : 0)
             });
         }
 
