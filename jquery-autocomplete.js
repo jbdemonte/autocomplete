@@ -404,10 +404,10 @@
                 element.val(value);
             }
             hide();
+            element.focus();
             if (typeof options.cb.select === "function") {
                 options.cb.select.call(element, current[key], key, i);
             }
-            element.focus();
         }
 
         // use data receive from post or cache to display the selectbox
