@@ -19,14 +19,19 @@
                                     value: $(this).val()             // add the value
                                 }
                             },
-                            cast: function(item) {            // convert item to string
-                                return item.data
-                            },
-                            preselect: function(item, i) {             // on "highlight" item, display some context data
-                                $("#preview").html(item ? item.preview : "");
+                            // once data are got from ajax, we cast these data definitively to use it as simple string (also compatible with cast callback) 
+                            process: function(data, textStatus, jqXHR) {
+                                // textStatus may be "once", "cache" or ajax textStatus if jqXHR is set
+                                var i, result = [];
+                                if (data) {
+                                    for(i = 0; i < data.length; i++) {
+                                        result.push(data[i].data); // ajax returns [ {data: "xxx", preview: "yyy"], ... ]
+                                    }
+                                }
+                                return result;
                             },
                             select: function(item, i) {          // on select an item
-                                $("#select").html(item.data);
+                                $("#select").html(item);
                             }
                         },
                         delai: 250,
@@ -54,8 +59,6 @@
         <input type="checkbox" id="enable" checked><label for="enable">Enable</label>
         <br /><br />
         <input type="button" id="flush" value="Flush cache">
-        <br /><br />
-        <span>Preview : </span><span id="preview"></span>
         <br /><br />
         <span>Selected : </span><span id="select"></span>
     </body>

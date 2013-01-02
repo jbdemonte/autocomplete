@@ -363,7 +363,7 @@
                 }
                 // user process
                 if (typeof options.cb.process === "function") {
-                    data = options.cb.process.key(element, data, textStatus, jqXHR);
+                    data = options.cb.process.call(element, data, textStatus, jqXHR);
                 }
                 if (typeof data === "string") {
                     data = splitData(data, options.splitChr);
