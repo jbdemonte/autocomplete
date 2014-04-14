@@ -229,7 +229,7 @@
 
         // manage key pressed
         function keyPressed(e) {
-            var next,
+            var next, li,
                 c = e.which;
             if (c === 9) { // tab
                 return;
@@ -257,7 +257,8 @@
                 e.preventDefault();
             } else if (c === 13 || c === 39) { // enter or right arrow
                 if (iHover !== -1) {
-                    select(iHover, $("li", dropbox).eq(iHover).text());
+                    li = $("li", dropbox).eq(iHover);
+                    select(iHover, options.cb.cast ? options.cb.cast(current[li.data("key")]) : li.text());
                     e.preventDefault();
                     e.stopImmediatePropagation();
                 } else {
@@ -471,6 +472,7 @@
                     event.stopPropagation();
                     select(i, cast(value));
                 });
+                li.data("key", key);
                 li.click(function (event) {
                     event.stopPropagation();
                     select(i, cast(value));
