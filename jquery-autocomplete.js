@@ -480,7 +480,7 @@
                         preselect(i);
                     }
                 });
-                dropbox.append(li.append(a.append(cast(value))));
+                dropbox.append(li.append(a.append(cast(value, true))));
                 keys[i] = key;
                 count += 1;
             });
