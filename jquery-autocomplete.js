@@ -26,7 +26,8 @@
                 process: undef,     // after getting the result, it allows to manipulate data before displaying the completion
                 preselect: undef,   // on highlight item
                 select: undef,      // on select item
-                unselect: undef     // on validate a non item value
+                unselect: undef,    // on validate a non item value
+                force: undef        // enter on a non item (enter after an empty list)
             },
             width: "auto",          // auto : min-width = width of the input, false : width of the input else value
             offset: undef,               // display offset
@@ -263,6 +264,9 @@
                     e.stopImmediatePropagation();
                 } else {
                     hide(true);
+                    if (c === 13 && options.cb.force) {
+                        options.cb.force.call(element);
+                    }
                 }
             } else if (c === 27) { // esc
                 preselect(-1);
@@ -275,7 +279,7 @@
         // create the data object to send in $.ajax
         function getData() {
             var data, name = "value";
-            if (typeof options.cb.populate === "function") {
+            if (options.cb.populate) {
                 data = $.extend(true, {}, options.ajax.data, options.cb.populate.call(element));
             } else {
                 data = $.extend(true, {}, options.ajax.data);
@@ -344,7 +348,7 @@
             if (cache && ((options.once && !$.isEmptyObject(cache)) || (options.cache && (typeof cache[value] !== "undefined")))) {
                 data = options.once ? clone(cache) : clone(cache[value]);
                 // user process
-                if (typeof options.cb.process === "function") {
+                if (options.cb.process) {
                     data = options.cb.process.call(element, data, options.once ? "once" : "cache");
                 }
                 if (typeof data === "string") {
@@ -363,7 +367,7 @@
                     cache[value] = clone(data);
                 }
                 // user process
-                if (typeof options.cb.process === "function") {
+                if (options.cb.process) {
                     data = options.cb.process.call(element, data, textStatus, jqXHR);
                 }
                 if (typeof data === "string") {
@@ -386,7 +390,7 @@
             hoverize(iHover, false);
             iHover = next;
             hoverize(iHover, true);
-            if (typeof options.cb.preselect === "function") {
+            if (options.cb.preselect) {
                 if (iHover === -1) {
                     options.cb.preselect.call(element);
 
@@ -406,7 +410,7 @@
             }
             hide();
             element.focus();
-            if (typeof options.cb.select === "function") {
+            if (options.cb.select) {
                 options.cb.select.call(element, current[key], key, i);
             }
         }
@@ -549,9 +553,10 @@
                     if (index !== undef) {
                         select(index);
                         return false;
-                    } else if (typeof options.cb.unselect === "function") {
-                        options.cb.unselect.call(element);
                     }
+                }
+                if (iHover >= 0 && options.cb.unselect) {
+                    options.cb.unselect.call(element);
                 }
                 stopToAutoHide();
                 dropbox.remove();
