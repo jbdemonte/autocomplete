@@ -321,14 +321,14 @@
         function matchFilter(data, cast) {
             var val = element.val(),
                 re = new RegExp((options.prefix ? "^" : "") + val.replace(/[\-\[\]{}()*+?.,\\\^\$\|#\s]/g, "\\$&"), "i"), //escape regular expression
-                result = {};
+                result = [];
             // value is empty and minLenght is 0 (else, can't reach this filter)
             if (!val.length) {
                 return data;
             }
             $.each(data, function (key, value) {
                 if (re.test(cast(value))) {
-                    result[key] = value;
+                    result.push(value);
                 }
             });
             return result;
@@ -336,7 +336,7 @@
 
         // run the completion : use local source
         function completeSource() {
-            show(getSource(options.source), true);
+            show(getSource(options.source), options.match);
         }
 
         // run the completion : use cache or call $.ajax
