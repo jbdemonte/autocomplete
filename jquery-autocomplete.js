@@ -44,7 +44,10 @@
             loop: true,             // up / down loop
             selectFirst: true,      // select first element on show
             className : namespace
-        };
+        },
+      ua = navigator.userAgent.toLowerCase(),
+      opera = ua.match(/opera/),
+      msie = ua.match(/msie/);
 
     //*************************************************
     // Mixed functions
@@ -119,7 +122,7 @@
         // bind events
         function bind() {
             if (!binded) {
-                element[$.browser.opera ? "keypress" : "keydown"](handlers.key);
+                element[opera ? "keypress" : "keydown"](handlers.key);
                 element.focusout(handlers.focusout);
                 element.dblclick(handlers.dblclick);
                 binded = true;
@@ -129,7 +132,7 @@
         // unbind events
         function unbind() {
             if (binded) {
-                element.unbind($.browser.opera ? "keypress" : "keydown", handlers.key);
+                element.unbind(opera ? "keypress" : "keydown", handlers.key);
                 element.unbind("focusout", handlers.focusout);
                 element.unbind("dblclick", handlers.dblclick);
                 binded = false;
@@ -418,7 +421,7 @@
         // use data receive from post or cache to display the selectbox
         function show(data, match) {
             var position = element.position(),
-                width = $.browser.msie ? element.outerWidth() : element.width(),
+                width = msie ? element.outerWidth() : element.width(),
                 cast = options.cb.cast || function (s) { return s; };
 
             hide();
@@ -451,7 +454,7 @@
 
             // adjust width
             if (options.width === "auto") {
-                dropbox.css($.browser.msie ? "width" : "minWidth", width + "px");
+                dropbox.css(msie ? "width" : "minWidth", width + "px");
             } else if (options.width === false) {
                 dropbox.css({
                     width: width + "px",
@@ -516,7 +519,7 @@
             relocate();
 
             // manage min-width, min-height, max-width, max-height for IE
-            if ($.browser.msie) {
+            if (msie) {
                 $.each(["min", "max"], function (isMax, type) {
                     $.each(["Width", "Height"], function (i, property) {
                         var v = parseInt(dropbox.css(type + property), 10);
